@@ -46,6 +46,10 @@ export class CatComponent {
   #localScore = 0;
   /** @type {number} */
   #displayedScore = 0;
+  /** @type {number} */
+  #currentVisualScore = 0;
+  /** @type {boolean} */
+  #isInitialized = false;
   /** @type {number | null} */
   #animFrame = null;
   /** @type {ReturnType<typeof setTimeout> | null} */
@@ -272,18 +276,49 @@ export class CatComponent {
   // ── Score display ─────────────────────────────────────────────────────────
   /**
    * Called by GameManager when Firebase pushes a new global score.
-   * Animates the number rolling up.
+   * Renders instantly on page load/refresh, and animates smoothly on live updates.
    * @param {number} newScore
    */
   setGlobalScore(newScore) {
-    if (newScore === this.#displayedScore) return;
+    if (this.#isInitialized && newScore === this.#displayedScore) return;
 
     // Cancel any ongoing animation
-    if (this.#animFrame) cancelAnimationFrame(this.#animFrame);
+    if (this.#animFrame) {
+      cancelAnimationFrame(this.#animFrame);
+      this.#animFrame = null;
+    }
 
-    const start = this.#displayedScore;
+    // First load / page refresh: set score immediately without counting up from 0
+    if (!this.#isInitialized) {
+      this.#isInitialized = true;
+      this.#displayedScore = newScore;
+      this.#currentVisualScore = newScore;
+      if (this.#scoreEl) {
+        const formatted = newScore.toLocaleString();
+        this.#scoreEl.textContent = formatted;
+        this.#scoreEl.title = formatted;
+        this.#scoreEl.dataset.length = String(formatted.length);
+      }
+      return;
+    }
+
+    // Live updates: animate from current visual score to new score
+    const start = this.#currentVisualScore;
     const end = newScore;
-    const duration = 600; // ms
+    this.#displayedScore = newScore;
+
+    if (start === end) {
+      this.#currentVisualScore = end;
+      if (this.#scoreEl) {
+        const formatted = end.toLocaleString();
+        this.#scoreEl.textContent = formatted;
+        this.#scoreEl.title = formatted;
+        this.#scoreEl.dataset.length = String(formatted.length);
+      }
+      return;
+    }
+
+    const duration = 250; // ms — responsive duration for real-time live updates
     const startTime = performance.now();
 
     const tick = (now) => {
@@ -292,6 +327,8 @@ export class CatComponent {
       // Ease-out cubic
       const eased = 1 - Math.pow(1 - progress, 3);
       const current = Math.round(start + (end - start) * eased);
+
+      this.#currentVisualScore = current;
 
       if (this.#scoreEl) {
         const formatted = current.toLocaleString();
@@ -303,7 +340,7 @@ export class CatComponent {
       if (progress < 1) {
         this.#animFrame = requestAnimationFrame(tick);
       } else {
-        this.#displayedScore = end;
+        this.#currentVisualScore = end;
         this.#animFrame = null;
       }
     };

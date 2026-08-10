@@ -151,14 +151,6 @@ export class GameManager {
     firebaseService.init();
     firebaseService.onScoreUpdate((scores) => this.#onRemoteScores(scores));
 
-    // Initial fetch for immediate display
-    try {
-      const initial = await firebaseService.getScoresOnce();
-      this.#onRemoteScores(initial);
-    } catch (err) {
-      console.warn("[GameManager] Could not fetch initial scores:", err);
-    }
-
     // Start the flush loop every 2500ms
     this.#startFlushLoop();
 
