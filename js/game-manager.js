@@ -263,14 +263,20 @@ export class GameManager {
   // ── Stats UI ──────────────────────────────────────────────────────────────
   #updateSessionStats() {
     if (this.#totalClicksEl) {
-      this.#totalClicksEl.textContent = this.#sessionClicks.toLocaleString();
+      const formatted = this.#sessionClicks.toLocaleString();
+      this.#totalClicksEl.textContent = formatted;
+      this.#totalClicksEl.title = formatted;
+      this.#totalClicksEl.dataset.length = String(formatted.length);
     }
   }
 
   #updateTotalScore() {
     const total = Object.values(this.#globalScores).reduce((a, b) => a + b, 0);
     if (this.#totalScoreEl) {
-      this.#totalScoreEl.textContent = total.toLocaleString();
+      const formatted = total.toLocaleString();
+      this.#totalScoreEl.textContent = formatted;
+      this.#totalScoreEl.title = formatted;
+      this.#totalScoreEl.dataset.length = String(formatted.length);
     }
   }
 
@@ -285,13 +291,14 @@ export class GameManager {
     this.#leaderboardEl.innerHTML = "";
 
     sorted.forEach((cat, idx) => {
+      const formatted = cat.score.toLocaleString();
       const li = document.createElement("li");
       li.className = "lb-item";
       li.innerHTML = `
         <span class="lb-rank">${idx + 1}</span>
         <span class="lb-emoji" style="color:${cat.color}">${cat.emoji}</span>
-        <span class="lb-name">${cat.name}</span>
-        <span class="lb-score" style="color:${cat.color}">${cat.score.toLocaleString()}</span>
+        <span class="lb-name" title="${cat.name}">${cat.name}</span>
+        <span class="lb-score" style="color:${cat.color}" title="${formatted}" data-length="${formatted.length}">${formatted}</span>
       `;
       this.#leaderboardEl.appendChild(li);
     });

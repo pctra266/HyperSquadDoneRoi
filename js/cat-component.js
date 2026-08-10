@@ -294,7 +294,10 @@ export class CatComponent {
       const current = Math.round(start + (end - start) * eased);
 
       if (this.#scoreEl) {
-        this.#scoreEl.textContent = current.toLocaleString();
+        const formatted = current.toLocaleString();
+        this.#scoreEl.textContent = formatted;
+        this.#scoreEl.title = formatted;
+        this.#scoreEl.dataset.length = String(formatted.length);
       }
 
       if (progress < 1) {
@@ -310,7 +313,10 @@ export class CatComponent {
 
   #updateClicksDisplay() {
     if (this.#clicksEl) {
-      this.#clicksEl.textContent = this.#localScore.toLocaleString();
+      const formatted = this.#localScore.toLocaleString();
+      this.#clicksEl.textContent = formatted;
+      this.#clicksEl.title = formatted;
+      this.#clicksEl.dataset.length = String(formatted.length);
     }
   }
 

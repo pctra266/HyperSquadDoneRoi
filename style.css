@@ -274,6 +274,8 @@ img {
   border-radius: var(--radius-sm);
   padding: 6px 16px;
   min-width: 100px;
+  max-width: 200px;
+  overflow: hidden;
 }
 
 .stat-chip-label {
@@ -281,6 +283,7 @@ img {
   letter-spacing: 0.12em;
   color: var(--text-secondary);
   text-transform: uppercase;
+  white-space: nowrap;
 }
 
 .stat-chip-value {
@@ -288,7 +291,27 @@ img {
   font-size: 1.1rem;
   font-weight: 700;
   color: var(--accent-neon);
+  max-width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: font-size var(--transition-fast);
 }
+
+/* Dynamic font scaling for Header Stat Chips */
+.stat-chip-value[data-length="10"],
+.stat-chip-value[data-length="11"],
+.stat-chip-value[data-length="12"] { font-size: 0.95rem; }
+.stat-chip-value[data-length="13"],
+.stat-chip-value[data-length="14"],
+.stat-chip-value[data-length="15"] { font-size: 0.82rem; }
+.stat-chip-value[data-length="16"],
+.stat-chip-value[data-length="17"],
+.stat-chip-value[data-length="18"] { font-size: 0.72rem; }
+.stat-chip-value[data-length="19"],
+.stat-chip-value[data-length="20"],
+.stat-chip-value[data-length="21"],
+.stat-chip-value[data-length="22"] { font-size: 0.65rem; }
 
 #chip-score .stat-chip-value { color: var(--accent-gold); }
 
@@ -481,6 +504,11 @@ img {
   font-size: 0.95rem;
   color: var(--text-primary);
   letter-spacing: 0.03em;
+  max-width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: center;
 }
 
 /* Score block */
@@ -491,6 +519,8 @@ img {
   align-items: center;
   gap: 1px;
   width: 100%;
+  max-width: 100%;
+  overflow: hidden;
 }
 
 .cat-score-label,
@@ -507,10 +537,29 @@ img {
   font-weight: 700;
   color: var(--cat-color);
   text-shadow: 0 0 20px var(--cat-color);
-  transition: transform var(--transition-fast);
+  transition: transform var(--transition-fast), font-size var(--transition-fast);
   min-width: 3ch;
+  max-width: 100%;
   text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
+
+/* Dynamic font scaling for Cat Card Score */
+.cat-score[data-length="8"],
+.cat-score[data-length="9"],
+.cat-score[data-length="10"] { font-size: 1.05rem; }
+.cat-score[data-length="11"],
+.cat-score[data-length="12"],
+.cat-score[data-length="13"] { font-size: 0.9rem; }
+.cat-score[data-length="14"],
+.cat-score[data-length="15"],
+.cat-score[data-length="16"] { font-size: 0.78rem; }
+.cat-score[data-length="17"],
+.cat-score[data-length="18"],
+.cat-score[data-length="19"],
+.cat-score[data-length="20"] { font-size: 0.7rem; }
 
 .cat-clicks {
   font-family: var(--font-display);
@@ -518,7 +567,19 @@ img {
   font-weight: 600;
   color: var(--text-secondary);
   text-align: center;
+  max-width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: font-size var(--transition-fast);
 }
+
+.cat-clicks[data-length="8"],
+.cat-clicks[data-length="9"],
+.cat-clicks[data-length="10"] { font-size: 0.78rem; }
+.cat-clicks[data-length="11"],
+.cat-clicks[data-length="12"],
+.cat-clicks[data-length="13"] { font-size: 0.7rem; }
 
 /* ── 11. Pop Particle ────────────────────────────────────────────────────── */
 .pop-particle {
@@ -605,6 +666,8 @@ img {
   background: rgba(255,255,255,0.03);
   border: 1px solid var(--border-subtle);
   transition: background var(--transition-fast), border-color var(--transition-fast);
+  min-width: 0;
+  width: 100%;
 }
 
 .lb-item:hover {
@@ -619,19 +682,27 @@ img {
   color: var(--text-dim);
   width: 16px;
   text-align: center;
+  flex-shrink: 0;
 }
 
 .lb-item:nth-child(1) .lb-rank { color: var(--accent-gold); }
 .lb-item:nth-child(2) .lb-rank { color: #c0c0c0; }
 .lb-item:nth-child(3) .lb-rank { color: #cd7f32; }
 
-.lb-emoji { font-size: 1.2rem; }
+.lb-emoji {
+  font-size: 1.2rem;
+  flex-shrink: 0;
+}
 
 .lb-name {
   flex: 1;
+  min-width: 0;
   font-size: 0.85rem;
   font-weight: 600;
   color: var(--text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .lb-score {
@@ -639,7 +710,24 @@ img {
   font-size: 0.9rem;
   font-weight: 700;
   text-shadow: 0 0 12px currentColor;
+  white-space: nowrap;
+  flex-shrink: 0;
+  max-width: 55%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: font-size var(--transition-fast);
 }
+
+/* Dynamic font scaling for Leaderboard Score */
+.lb-score[data-length="10"],
+.lb-score[data-length="11"],
+.lb-score[data-length="12"] { font-size: 0.8rem; }
+.lb-score[data-length="13"],
+.lb-score[data-length="14"],
+.lb-score[data-length="15"] { font-size: 0.72rem; }
+.lb-score[data-length="16"],
+.lb-score[data-length="17"],
+.lb-score[data-length="18"] { font-size: 0.65rem; }
 
 /* How to play */
 .how-to-list {
