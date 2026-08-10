@@ -31,7 +31,9 @@ export class CatComponent {
   /** @type {HTMLElement | null} */
   #element = null;
   /** @type {HTMLImageElement | null} */
-  #img = null;
+  #normalImg = null;
+  /** @type {HTMLImageElement | null} */
+  #popImg = null;
   /** @type {HTMLSpanElement | null} */
   #scoreEl = null;
   /** @type {HTMLSpanElement | null} */
@@ -51,14 +53,23 @@ export class CatComponent {
   /** @type {(catId: string, delta: number) => void} */
   #onClickCallback;
 
-  /**
-   * @param {CatConfig}  config
-   * @param {Function}   onClickCallback — called with (catId, delta=1) on each tap
-   */
   constructor(config, onClickCallback) {
-    this.#config          = config;
+    this.#config = config;
     this.#onClickCallback = onClickCallback;
+    this.#preloadImages();
     this.#initAudio();
+  }
+
+  // ── Preload ───────────────────────────────────────────────────────────────
+  #preloadImages() {
+    if (this.#config.normalImage) {
+      const img1 = new Image();
+      img1.src = this.#config.normalImage;
+    }
+    if (this.#config.popImage) {
+      const img2 = new Image();
+      img2.src = this.#config.popImage;
+    }
   }
 
   // ── Audio ─────────────────────────────────────────────────────────────────
@@ -66,8 +77,8 @@ export class CatComponent {
     if (!this.#config.soundUrl) return;
     try {
       this.#audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-      const resp     = await fetch(this.#config.soundUrl);
-      const buf      = await resp.arrayBuffer();
+      const resp = await fetch(this.#config.soundUrl);
+      const buf = await resp.arrayBuffer();
       this.#audioBuffer = await this.#audioCtx.decodeAudioData(buf);
     } catch {
       // Sound is optional — fail silently
@@ -91,36 +102,50 @@ export class CatComponent {
    * @returns {HTMLElement}
    */
   render() {
-    const { id, name, emoji, normalImage, color, gradientFrom, gradientTo } = this.#config;
+    const { id, name, emoji, normalImage, popImage, color, gradientFrom, gradientTo } = this.#config;
 
     const card = document.createElement("div");
-    card.className  = "cat-card";
-    card.id         = `cat-card-${id}`;
+    card.className = "cat-card";
+    card.id = `cat-card-${id}`;
     card.dataset.catId = id;
     card.style.setProperty("--cat-color", color);
     card.style.setProperty("--grad-from", gradientFrom);
-    card.style.setProperty("--grad-to",   gradientTo);
+    card.style.setProperty("--grad-to", gradientTo);
 
     // ── Image wrapper
     const imgWrap = document.createElement("div");
     imgWrap.className = "cat-img-wrap";
 
-    const img = document.createElement("img");
-    img.className = "cat-img";
-    img.id        = `cat-img-${id}`;
-    img.src       = normalImage;
-    img.alt       = name;
-    img.draggable = false;
-    // Fallback to emoji if image fails
-    img.onerror   = () => { img.style.display = "none"; emojiEl.style.display = "flex"; };
-    this.#img = img;
+    // Normal Idle Image
+    const normalImg = document.createElement("img");
+    normalImg.className = "cat-img cat-img-normal";
+    normalImg.id = `cat-img-normal-${id}`;
+    normalImg.src = normalImage;
+    normalImg.alt = name;
+    normalImg.draggable = false;
+    normalImg.onerror = () => {
+      normalImg.style.display = "none";
+      if (popImg) popImg.style.display = "none";
+      emojiEl.style.display = "flex";
+    };
+    this.#normalImg = normalImg;
+
+    // Pop Open Mouth Image (pre-rendered in DOM, toggled via CSS)
+    const popImg = document.createElement("img");
+    popImg.className = "cat-img cat-img-pop";
+    popImg.id = `cat-img-pop-${id}`;
+    popImg.src = popImage;
+    popImg.alt = `${name} Pop`;
+    popImg.draggable = false;
+    this.#popImg = popImg;
 
     const emojiEl = document.createElement("span");
-    emojiEl.className    = "cat-emoji-fallback";
-    emojiEl.textContent  = emoji;
+    emojiEl.className = "cat-emoji-fallback";
+    emojiEl.textContent = emoji;
     emojiEl.style.display = "none";
 
-    imgWrap.appendChild(img);
+    imgWrap.appendChild(normalImg);
+    imgWrap.appendChild(popImg);
     imgWrap.appendChild(emojiEl);
 
     // ── Name tag
@@ -133,12 +158,12 @@ export class CatComponent {
     scoreBlock.className = "cat-score-block";
 
     const scoreLabel = document.createElement("span");
-    scoreLabel.className   = "cat-score-label";
-    scoreLabel.textContent = "TOÀN CẦU";
+    scoreLabel.className = "cat-score-label";
+    scoreLabel.textContent = "TỔNG POP";
 
     const scoreEl = document.createElement("span");
-    scoreEl.className   = "cat-score";
-    scoreEl.id          = `cat-score-${id}`;
+    scoreEl.className = "cat-score";
+    scoreEl.id = `cat-score-${id}`;
     scoreEl.textContent = "0";
     this.#scoreEl = scoreEl;
 
@@ -150,12 +175,12 @@ export class CatComponent {
     clicksBlock.className = "cat-clicks-block";
 
     const clicksLabel = document.createElement("span");
-    clicksLabel.className   = "cat-clicks-label";
-    clicksLabel.textContent = "CLICK CỦA TÔI";
+    clicksLabel.className = "cat-clicks-label";
+    clicksLabel.textContent = "POP CỦA TÔI";
 
     const clicksEl = document.createElement("span");
-    clicksEl.className   = "cat-clicks";
-    clicksEl.id          = `cat-clicks-${id}`;
+    clicksEl.className = "cat-clicks";
+    clicksEl.id = `cat-clicks-${id}`;
     clicksEl.textContent = "0";
     this.#clicksEl = clicksEl;
 
@@ -198,32 +223,29 @@ export class CatComponent {
 
   // ── Animation ─────────────────────────────────────────────────────────────
   #animatePop(e) {
-    if (!this.#img) return;
+    if (!this.#element) return;
 
-    // Switch to pop image
-    this.#img.src = this.#config.popImage;
     this.#element.classList.add("is-popping");
 
     // Clear any existing timeout
     if (this.#popTimeout) clearTimeout(this.#popTimeout);
 
     this.#popTimeout = setTimeout(() => {
-      if (this.#img) this.#img.src = this.#config.normalImage;
-      this.#element.classList.remove("is-popping");
+      if (this.#element) this.#element.classList.remove("is-popping");
     }, 150);
   }
 
   #spawnParticle(e) {
-    const rect     = this.#element.getBoundingClientRect();
-    const x        = e.clientX - rect.left;
-    const y        = e.clientY - rect.top;
+    const rect = this.#element.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
 
     const p = document.createElement("span");
-    p.className    = "pop-particle";
-    p.textContent  = "+1";
-    p.style.left   = `${x}px`;
-    p.style.top    = `${y}px`;
-    p.style.color  = this.#config.color;
+    p.className = "pop-particle";
+    p.textContent = "+1";
+    p.style.left = `${x}px`;
+    p.style.top = `${y}px`;
+    p.style.color = this.#config.color;
     this.#element.appendChild(p);
 
     // Remove after animation ends (~800ms)
@@ -242,17 +264,17 @@ export class CatComponent {
     // Cancel any ongoing animation
     if (this.#animFrame) cancelAnimationFrame(this.#animFrame);
 
-    const start      = this.#displayedScore;
-    const end        = newScore;
-    const duration   = 600; // ms
-    const startTime  = performance.now();
+    const start = this.#displayedScore;
+    const end = newScore;
+    const duration = 600; // ms
+    const startTime = performance.now();
 
     const tick = (now) => {
-      const elapsed  = now - startTime;
+      const elapsed = now - startTime;
       const progress = Math.min(elapsed / duration, 1);
       // Ease-out cubic
-      const eased    = 1 - Math.pow(1 - progress, 3);
-      const current  = Math.round(start + (end - start) * eased);
+      const eased = 1 - Math.pow(1 - progress, 3);
+      const current = Math.round(start + (end - start) * eased);
 
       if (this.#scoreEl) {
         this.#scoreEl.textContent = current.toLocaleString();
@@ -276,15 +298,15 @@ export class CatComponent {
   }
 
   // ── Getters ───────────────────────────────────────────────────────────────
-  get id()          { return this.#config.id; }
-  get localScore()  { return this.#localScore; }
-  get element()     { return this.#element; }
+  get id() { return this.#config.id; }
+  get localScore() { return this.#localScore; }
+  get element() { return this.#element; }
 
   // ── Destroy ───────────────────────────────────────────────────────────────
   destroy() {
     if (this.#popTimeout) clearTimeout(this.#popTimeout);
-    if (this.#animFrame)  cancelAnimationFrame(this.#animFrame);
-    if (this.#audioCtx)   this.#audioCtx.close();
+    if (this.#animFrame) cancelAnimationFrame(this.#animFrame);
+    if (this.#audioCtx) this.#audioCtx.close();
     this.#element?.remove();
   }
 }

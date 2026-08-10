@@ -437,14 +437,33 @@ img {
 }
 
 .cat-img {
+  position: absolute;
   width: 90%;
   height: 90%;
   object-fit: contain;
-  transition: transform var(--transition-fast);
+  transition: transform var(--transition-fast), opacity 30ms ease;
   filter: drop-shadow(0 8px 24px rgba(0,0,0,0.4));
+  will-change: opacity, transform;
 }
 
-.cat-card.is-popping .cat-img {
+.cat-img-normal {
+  opacity: 1;
+  visibility: visible;
+}
+
+.cat-img-pop {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.cat-card.is-popping .cat-img-normal {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.cat-card.is-popping .cat-img-pop {
+  opacity: 1;
+  visibility: visible;
   transform: scale(1.12);
   filter: drop-shadow(0 8px 32px var(--cat-color)) brightness(1.15);
 }
