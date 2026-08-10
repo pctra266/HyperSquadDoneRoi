@@ -50,6 +50,8 @@ export class CatComponent {
   #animFrame = null;
   /** @type {ReturnType<typeof setTimeout> | null} */
   #popTimeout = null;
+  /** @type {number} */
+  #lastSoundTime = 0;
   /** @type {(catId: string, delta: number) => void} */
   #onClickCallback;
 
@@ -213,10 +215,17 @@ export class CatComponent {
   }
 
   #handleClick(e) {
+    const now = performance.now();
     this.#localScore++;
     this.#onClickCallback(this.#config.id, 1);
     this.#animatePop(e);
-    this.#playSound();
+
+    // Throttle audio execution to avoid AudioContext overflow under rapid autoclick
+    if (now - this.#lastSoundTime > 40) {
+      this.#playSound();
+      this.#lastSoundTime = now;
+    }
+
     this.#spawnParticle(e);
     this.#updateClicksDisplay();
   }
@@ -236,9 +245,17 @@ export class CatComponent {
   }
 
   #spawnParticle(e) {
+    if (!this.#element) return;
+
+    // Cap max particle elements per card to 10 to prevent DOM thrashing
+    const existing = this.#element.getElementsByClassName("pop-particle");
+    if (existing.length >= 10) {
+      existing[0].remove();
+    }
+
     const rect = this.#element.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
+    const x = Math.max(0, Math.min(rect.width, e.clientX ? e.clientX - rect.left : rect.width / 2));
+    const y = Math.max(0, Math.min(rect.height, e.clientY ? e.clientY - rect.top : rect.height / 2));
 
     const p = document.createElement("span");
     p.className = "pop-particle";

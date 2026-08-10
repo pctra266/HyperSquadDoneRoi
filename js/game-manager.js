@@ -14,7 +14,7 @@
  * ─────────────────────────────────────────────────────────────────────────────
  */
 
-import { CatComponent }   from "./cat-component.js";
+import { CatComponent } from "./cat-component.js";
 import { firebaseService } from "./firebase-config.js";
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -24,92 +24,92 @@ import { firebaseService } from "./firebase-config.js";
 // ─────────────────────────────────────────────────────────────────────────────
 export const CAT_CONFIG = [
   {
-    id:           "cat_quynh",
-    name:         "Quỳnh Sành Điệu",
-    emoji:        "👑",
-    normalImage:  "/cats/tabby_normal.png",
-    popImage:     "/cats/tabby_pop.png",
-    soundUrl:     "/sounds/pop2.mp3",
-    color:        "#FF5FA0",
+    id: "cat_quynh",
+    name: "Quỳnh Sành Điệu",
+    emoji: "👑",
+    normalImage: "/cats/tabby_normal.png",
+    popImage: "/cats/tabby_pop.png",
+    soundUrl: "/sounds/pop2.mp3",
+    color: "#FF5FA0",
     gradientFrom: "#2e0a1a",
-    gradientTo:   "#1a0510",
+    gradientTo: "#1a0510",
   },
   {
-    id:           "cat_duy",
-    name:         "Duy Lê",
-    emoji:        "😎",
-    normalImage:  "/cats/siamese_normal.png",
-    popImage:     "/cats/siamese_pop2.png",
-    soundUrl:     "/sounds/pop2.mp3",
-    color:        "#4CC9F0",
+    id: "cat_duy",
+    name: "Duy Lê",
+    emoji: "😎",
+    normalImage: "/cats/siamese_normal.png",
+    popImage: "/cats/siamese_pop2.png",
+    soundUrl: "/sounds/pop2.mp3",
+    color: "#4CC9F0",
     gradientFrom: "#061e2e",
-    gradientTo:   "#020e17",
+    gradientTo: "#020e17",
   },
   {
-    id:           "cat_gndtt",
-    name:         "GNDTT",
-    emoji:        "🎭",
-    normalImage:  "/cats/black_normal.png",
-    popImage:     "/cats/black_pop.png",
-    soundUrl:     "/sounds/pop2.mp3",
-    color:        "#9B5DE5",
+    id: "cat_gndtt",
+    name: "GNDTT",
+    emoji: "🎭",
+    normalImage: "/cats/black_normal.png",
+    popImage: "/cats/black_pop.png",
+    soundUrl: "/sounds/pop2.mp3",
+    color: "#9B5DE5",
     gradientFrom: "#1a0d2e",
-    gradientTo:   "#0d0618",
+    gradientTo: "#0d0618",
   },
   {
-    id:           "cat_duong",
-    name:         "Dương404",
-    emoji:        "🔴",
-    normalImage:  "/cats/calico_normal.png",
-    popImage:     "/cats/calico_pop2.png",
-    soundUrl:     "/sounds/pop2.mp3",
-    color:        "#FF4444",
+    id: "cat_duong",
+    name: "Dương404",
+    emoji: "🔴",
+    normalImage: "/cats/calico_normal.png",
+    popImage: "/cats/calico_pop2.png",
+    soundUrl: "/sounds/pop2.mp3",
+    color: "#FF4444",
     gradientFrom: "#2e0a0a",
-    gradientTo:   "#1a0505",
+    gradientTo: "#1a0505",
   },
   {
-    id:           "cat_mb3r",
-    name:         "MB3R",
-    emoji:        "🎮",
-    normalImage:  "/cats/fold_normal.png",
-    popImage:     "/cats/fold_pop2.png",
-    soundUrl:     "/sounds/pop2.mp3",
-    color:        "#00F5D4",
+    id: "cat_mb3r",
+    name: "MB3R",
+    emoji: "🎮",
+    normalImage: "/cats/fold_normal.png",
+    popImage: "/cats/fold_pop2.png",
+    soundUrl: "/sounds/pop2.mp3",
+    color: "#00F5D4",
     gradientFrom: "#022018",
-    gradientTo:   "#01100c",
+    gradientTo: "#01100c",
   },
   {
-    id:           "cat_xanac",
-    name:         "xa nắc",
-    emoji:        "🌿",
-    normalImage:  "/cats/white_normal.png",
-    popImage:     "/cats/white_pop2.png",
-    soundUrl:     "/sounds/pop2.mp3",
-    color:        "#7BF542",
+    id: "cat_xanac",
+    name: "xa nắc",
+    emoji: "🌿",
+    normalImage: "/cats/white_normal.png",
+    popImage: "/cats/white_pop2.png",
+    soundUrl: "/sounds/pop2.mp3",
+    color: "#7BF542",
     gradientFrom: "#0e2006",
-    gradientTo:   "#071003",
+    gradientTo: "#071003",
   },
   {
-    id:           "cat_entity",
-    name:         "Entity 17",
-    emoji:        "👾",
-    normalImage:  "/cats/chubby_normal.png",
-    popImage:     "/cats/chubby_pop2.png",
-    soundUrl:     "/sounds/pop2.mp3",
-    color:        "#3BF4FB",
+    id: "cat_entity",
+    name: "Entity 17",
+    emoji: "👾",
+    normalImage: "/cats/chubby_normal.png",
+    popImage: "/cats/chubby_pop2.png",
+    soundUrl: "/sounds/pop2.mp3",
+    color: "#3BF4FB",
     gradientFrom: "#062024",
-    gradientTo:   "#021013",
+    gradientTo: "#021013",
   },
   {
-    id:           "cat_quan",
-    name:         "Quân Fbz",
-    emoji:        "📱",
-    normalImage:  "/cats/quan_normal.png",
-    popImage:     "/cats/quan_pop2.png",
-    soundUrl:     "/sounds/pop2.mp3",
-    color:        "#6366F1",
+    id: "cat_quan",
+    name: "Quân Fbz",
+    emoji: "📱",
+    normalImage: "/cats/quan_normal.png",
+    popImage: "/cats/quan_pop2.png",
+    soundUrl: "/sounds/pop2.mp3",
+    color: "#6366F1",
     gradientFrom: "#0f0e2e",
-    gradientTo:   "#08071a",
+    gradientTo: "#08071a",
   },
 ];
 
@@ -135,12 +135,12 @@ export class GameManager {
   #flushing = false;
 
   // DOM refs
-  #gridEl          = null;
-  #totalClicksEl   = null;
-  #totalScoreEl    = null;
-  #leaderboardEl   = null;
-  #connectionEl    = null;
-  #isConnected     = null;
+  #gridEl = null;
+  #totalClicksEl = null;
+  #totalScoreEl = null;
+  #leaderboardEl = null;
+  #connectionEl = null;
+  #isConnected = null;
 
   // ── Bootstrap ─────────────────────────────────────────────────────────────
   async init() {
@@ -173,11 +173,11 @@ export class GameManager {
 
   // ── DOM refs ──────────────────────────────────────────────────────────────
   #cacheDomRefs() {
-    this.#gridEl        = document.getElementById("cats-grid");
+    this.#gridEl = document.getElementById("cats-grid");
     this.#totalClicksEl = document.getElementById("stat-total-clicks");
-    this.#totalScoreEl  = document.getElementById("stat-total-score");
+    this.#totalScoreEl = document.getElementById("stat-total-score");
     this.#leaderboardEl = document.getElementById("leaderboard-list");
-    this.#connectionEl  = document.getElementById("connection-status");
+    this.#connectionEl = document.getElementById("connection-status");
   }
 
   // ── Render cats into grid ─────────────────────────────────────────────────
@@ -192,14 +192,14 @@ export class GameManager {
       this.#cats.set(config.id, cat);
       this.#gridEl.appendChild(cat.render());
       this.#pendingDeltas[config.id] = 0;
-      this.#globalScores[config.id]  = 0;
+      this.#globalScores[config.id] = 0;
     });
   }
 
   // ── Click handler (from CatComponent) ────────────────────────────────────
   #onCatClicked(catId, delta) {
     this.#pendingDeltas[catId] = (this.#pendingDeltas[catId] ?? 0) + delta;
-    this.#sessionClicks        += delta;
+    this.#sessionClicks += delta;
     this.#updateSessionStats();
   }
 
@@ -211,22 +211,35 @@ export class GameManager {
   async #flush() {
     if (this.#flushing) return; // guard against concurrent flushes
 
-    // Snapshot and reset pending deltas atomically
-    const snapshot = { ...this.#pendingDeltas };
-    const hasData  = Object.values(snapshot).some((v) => v > 0);
-    if (!hasData) return;
+    // Maximum human clicks allowed per 2.5s flush window (~14 CPS)
+    const MAX_DELTAS_PER_FLUSH = 35;
 
-    // Reset immediately — new clicks accumulate in the fresh object
-    CAT_CONFIG.forEach(({ id }) => { this.#pendingDeltas[id] = 0; });
+    // Snapshot and reset pending deltas atomically with safety caps
+    const snapshot = {};
+    let hasData = false;
+
+    CAT_CONFIG.forEach(({ id }) => {
+      const pending = this.#pendingDeltas[id] ?? 0;
+      const capped = Math.min(pending, MAX_DELTAS_PER_FLUSH);
+      if (capped > 0) {
+        snapshot[id] = capped;
+        hasData = true;
+      }
+      // Reset immediately — new clicks accumulate in fresh state
+      this.#pendingDeltas[id] = 0;
+    });
+
+    if (!hasData) return;
 
     this.#flushing = true;
     try {
       await firebaseService.batchUpdate(snapshot);
     } catch (err) {
-      // On failure, add back the snapshot deltas to avoid data loss
+      // On failure, add back the snapshot deltas (capped to prevent infinite accumulation)
       console.warn("[GameManager] Flush failed, requeuing:", err);
       Object.entries(snapshot).forEach(([id, v]) => {
-        this.#pendingDeltas[id] = (this.#pendingDeltas[id] ?? 0) + v;
+        const current = this.#pendingDeltas[id] ?? 0;
+        this.#pendingDeltas[id] = Math.min(current + v, MAX_DELTAS_PER_FLUSH * 2);
       });
       this.#setConnected(false);
     } finally {

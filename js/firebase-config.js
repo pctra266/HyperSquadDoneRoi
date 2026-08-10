@@ -27,7 +27,8 @@ import {
   getDatabase,
   ref,
   onValue,
-  runTransaction,
+  update,
+  increment,
   get,
 }                            from "firebase/database";
 
@@ -97,7 +98,7 @@ class FirebaseService {
   // ── Batch-update scores ───────────────────────────────────────────────────
   /**
    * Atomically increment each cat's score by its pending delta.
-   * Uses `runTransaction` per node → safe for concurrent users.
+   * Uses atomic `increment()` + multi-path `update()` → lock-free, 1 network request.
    *
    * @param {Record<string, number>} deltas  — { catId: clicksToAdd, … }
    */
@@ -105,15 +106,14 @@ class FirebaseService {
     const entries = Object.entries(deltas).filter(([, v]) => v > 0);
     if (entries.length === 0) return;
 
-    const promises = entries.map(([catId, delta]) => {
-      const catRef = ref(this.#db, `scores/${catId}/total`);
-      return runTransaction(catRef, (currentValue) => {
-        return (currentValue ?? 0) + delta;
-      });
+    const updates = {};
+    entries.forEach(([catId, delta]) => {
+      updates[`scores/${catId}/total`] = increment(delta);
     });
 
     try {
-      await Promise.all(promises);
+      const rootRef = ref(this.#db);
+      await update(rootRef, updates);
     } catch (err) {
       console.error("[FirebaseService] batchUpdate failed:", err);
       throw err;
