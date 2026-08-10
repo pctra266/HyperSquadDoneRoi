@@ -134,7 +134,7 @@ export class CatComponent {
 
     const scoreLabel = document.createElement("span");
     scoreLabel.className   = "cat-score-label";
-    scoreLabel.textContent = "GLOBAL";
+    scoreLabel.textContent = "TOÀN CẦU";
 
     const scoreEl = document.createElement("span");
     scoreEl.className   = "cat-score";
@@ -151,7 +151,7 @@ export class CatComponent {
 
     const clicksLabel = document.createElement("span");
     clicksLabel.className   = "cat-clicks-label";
-    clicksLabel.textContent = "MY CLICKS";
+    clicksLabel.textContent = "CLICK CỦA TÔI";
 
     const clicksEl = document.createElement("span");
     clicksEl.className   = "cat-clicks";

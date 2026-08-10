@@ -3,15 +3,15 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <meta name="description" content="HyperSquad – Click your favourite cat and watch it climb the leaderboard in real-time!" />
+  <meta name="description" content="HyperSquad – Click vào thần tượng của bạn và xem điểm leo bảng xếp hạng theo thời gian thực!" />
   <meta name="theme-color" content="#0a0a1a" />
 
   <!-- Open Graph -->
-  <meta property="og:title"       content="HyperSquad Cat Clicker" />
-  <meta property="og:description" content="Click cats, compete live. Who wins?" />
+  <meta property="og:title"       content="HyperSquad – Bầu Chọn Thần Tượng" />
+  <meta property="og:description" content="Click mèo, thi đấu trực tiếp. Ai sẽ thắng?" />
   <meta property="og:type"        content="website" />
 
-  <title>🐾 HyperSquad — Cat Clicker</title>
+  <title>🐾 HyperSquad — Bầu Chọn Thần Tượng</title>
 
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -27,7 +27,7 @@
     <div class="splash-inner">
       <div class="splash-logo">🐾</div>
       <h1 class="splash-title">HYPER<span>SQUAD</span></h1>
-      <p class="splash-sub">Connecting to the grid…</p>
+      <p class="splash-sub">Đang kết nối…</p>
       <div class="splash-dots">
         <span></span><span></span><span></span>
       </div>
@@ -52,14 +52,14 @@
 
         <div class="header-stats">
           <div class="stat-chip" id="chip-clicks">
-            <span class="stat-chip-label">MY CLICKS</span>
+            <span class="stat-chip-label">CLICK CỦA TÔI</span>
             <span class="stat-chip-value" id="stat-total-clicks">0</span>
           </div>
           <div class="stat-chip" id="chip-score">
-            <span class="stat-chip-label">GLOBAL POPS</span>
+            <span class="stat-chip-label">TỔNG POP</span>
             <span class="stat-chip-value" id="stat-total-score">0</span>
           </div>
-          <div id="connection-status" class="connected" aria-live="polite">● LIVE</div>
+          <div id="connection-status" class="connected" aria-live="polite">● TRỰC TIẾP</div>
         </div>
       </div>
     </header>
@@ -70,19 +70,19 @@
       <!-- Cats Grid -->
       <section class="cats-section" aria-label="Cat clickers">
         <div class="section-header">
-          <h2 class="section-title">Choose Your Champion</h2>
-          <p class="section-sub">Tap a cat to pop it — scores update live!</p>
+          <h2 class="section-title">Chọn Thần Tượng Của Bạn</h2>
+          <p class="section-sub">Nhấn vào nhân vật để pop — điểm cập nhật theo thời gian thực!</p>
         </div>
 
         <!-- CatComponent elements are injected here by JavaScript -->
-        <div id="cats-grid" class="cats-grid" role="list" aria-label="Clickable cats"></div>
+        <div id="cats-grid" class="cats-grid" role="list" aria-label="Danh sách nhân vật"></div>
       </section>
 
       <!-- Sidebar -->
       <aside class="sidebar" aria-label="Leaderboard">
         <div class="sidebar-card">
           <h3 class="sidebar-title">
-            <span>🏆</span> Leaderboard
+            <span>🏆</span> Bảng Xếp Hạng
           </h3>
           <ul id="leaderboard-list" class="leaderboard-list" role="list" aria-live="polite">
             <!-- Populated by GameManager -->
@@ -90,12 +90,12 @@
         </div>
 
         <div class="sidebar-card info-card">
-          <h3 class="sidebar-title"><span>⚡</span> How to Play</h3>
+          <h3 class="sidebar-title"><span>⚡</span> Cách Chơi</h3>
           <ul class="how-to-list">
-            <li>🖱️ Click or tap any cat</li>
-            <li>🔥 Multi-touch supported!</li>
-            <li>🌐 Scores sync globally</li>
-            <li>🏆 Help your fave win!</li>
+            <li>🖱️ Click hoặc nhấn vào nhân vật</li>
+            <li>🔥 Hỗ trợ đa điểm chạm!</li>
+            <li>🌐 Điểm đồng bộ toàn cầu</li>
+            <li>🏆 Ủng hộ thần tượng của bạn!</li>
           </ul>
         </div>
       </aside>
@@ -103,7 +103,7 @@
 
     <!-- ── Footer ────────────────────────────────────────────────────────── -->
     <footer class="footer" role="contentinfo">
-      <p>Built with ❤️ + Firebase · <span id="flush-indicator" class="flush-indicator" aria-live="polite"></span></p>
+      <p>Được xây dựng với ❤️ + Firebase · <span id="flush-indicator" class="flush-indicator" aria-live="polite"></span></p>
     </footer>
   </div>
 

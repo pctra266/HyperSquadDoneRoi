@@ -711,6 +711,7 @@ img {
 .cat-card:nth-child(5) { animation-delay: 0.25s; }
 .cat-card:nth-child(6) { animation-delay: 0.30s; }
 .cat-card:nth-child(7) { animation-delay: 0.35s; }
+.cat-card:nth-child(8) { animation-delay: 0.40s; }
 
 /* Number pop when score updates */
 @keyframes scorePopIn {
