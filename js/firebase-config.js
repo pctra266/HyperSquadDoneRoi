@@ -31,6 +31,7 @@ import {
   update,
   increment,
   get,
+  serverTimestamp,
 }                            from "firebase/database";
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -123,14 +124,14 @@ class FirebaseService {
     const updates = {};
     entries.forEach(([catId, delta]) => {
       updates[`scores/${catId}/total`] = increment(delta);
+      updates[`scores/${catId}/lastUpdated`] = serverTimestamp();
     });
 
     try {
       const rootRef = ref(this.#db);
       await update(rootRef, updates);
     } catch (err) {
-      console.error("[FirebaseService] batchUpdate failed:", err);
-      throw err;
+      console.warn("[FirebaseService] batchUpdate rate limited or failed:", err.message);
     }
   }
 

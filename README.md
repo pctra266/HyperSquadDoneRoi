@@ -70,10 +70,14 @@ In Firebase Console → **Realtime Database → Rules**, paste:
     "scores": {
       "$catId": {
         ".read": true,
+        ".write": "newData.hasChildren(['total', 'lastUpdated'])",
         "total": {
-          ".write": true,
-          // Must be a number, can only increase, and max delta per request is +50 (Anti-Hack Rule)
-          ".validate": "newData.isNumber() && newData.val() >= (data.exists() ? data.val() : 0) && (!data.exists() || (newData.val() - data.val() <= 50))"
+          // Point must be non-negative, can only increase, and max delta is +35 per write
+          ".validate": "newData.isNumber() && newData.val() >= 0 && (!data.exists() || (newData.val() >= data.val() && newData.val() - data.val() <= 35))"
+        },
+        "lastUpdated": {
+          // Server timestamp rate limit: Must wait at least 1500ms between score writes for each cat
+          ".validate": "newData.isNumber() && newData.val() == now && (!data.exists() || now - data.val() >= 1500)"
         },
         "$other": {
           ".write": false,
