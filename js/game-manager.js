@@ -140,6 +140,7 @@ export class GameManager {
   #totalScoreEl    = null;
   #leaderboardEl   = null;
   #connectionEl    = null;
+  #isConnected     = null;
 
   // ── Bootstrap ─────────────────────────────────────────────────────────────
   async init() {
@@ -286,6 +287,8 @@ export class GameManager {
   // ── Connection status ─────────────────────────────────────────────────────
   #setConnected(connected) {
     if (!this.#connectionEl) return;
+    if (this.#isConnected === connected) return;
+    this.#isConnected = connected;
     this.#connectionEl.className = connected ? "connected" : "disconnected";
     this.#connectionEl.textContent = connected ? "● TRỰC TIẾP" : "● MẤT KẾT NỐI";
   }

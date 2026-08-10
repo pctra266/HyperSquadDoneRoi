@@ -299,14 +299,17 @@ img {
   letter-spacing: 0.08em;
   padding: 4px 12px;
   border-radius: 999px;
-  transition: var(--transition-normal);
+  transition: background-color var(--transition-normal), border-color var(--transition-normal);
+  user-select: none;
+  white-space: nowrap;
 }
 
 #connection-status.connected {
   background: rgba(34, 197, 94, 0.1);
   border: 1px solid rgba(34, 197, 94, 0.3);
   color: #4ade80;
-  animation: livePulse 2s ease-in-out infinite;
+  animation: liveGlow 2.5s ease-in-out infinite;
+  will-change: opacity, box-shadow;
 }
 
 #connection-status.disconnected {
@@ -315,9 +318,9 @@ img {
   color: #f87171;
 }
 
-@keyframes livePulse {
-  0%, 100% { opacity: 1; }
-  50%       { opacity: 0.6; }
+@keyframes liveGlow {
+  0%, 100% { opacity: 1; box-shadow: 0 0 0px rgba(74, 222, 128, 0); }
+  50%       { opacity: 0.75; box-shadow: 0 0 10px rgba(74, 222, 128, 0.25); }
 }
 
 /* ── 7. Main Layout ──────────────────────────────────────────────────────── */
@@ -524,14 +527,9 @@ img {
   flex-direction: column;
   gap: var(--gap-lg);
   position: sticky;
-  top: calc(64px + var(--gap-xl)); /* below sticky header */
+  top: calc(64px + var(--gap-md));
   height: fit-content;
-  max-height: calc(100dvh - 120px);
-  overflow-y: auto;
-  scrollbar-width: none;
 }
-
-.sidebar::-webkit-scrollbar { display: none; }
 
 .sidebar-card {
   background: var(--bg-card);
@@ -557,6 +555,26 @@ img {
   display: flex;
   flex-direction: column;
   gap: var(--gap-sm);
+  max-height: 320px;
+  overflow-y: auto;
+  padding-right: 4px;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.15) transparent;
+}
+
+.leaderboard-list::-webkit-scrollbar {
+  width: 5px;
+}
+.leaderboard-list::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.02);
+  border-radius: 4px;
+}
+.leaderboard-list::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 4px;
+}
+.leaderboard-list::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.3);
 }
 
 .lb-item {
@@ -779,17 +797,11 @@ img {
   font-size: 2.2rem;
   display: block;
   margin-bottom: 4px;
-  animation: breadWiggle 2.5s ease-in-out infinite;
-}
-
-@keyframes breadWiggle {
-  0%, 100% { transform: rotate(-6deg) scale(1); }
-  50%       { transform: rotate(6deg) scale(1.1); }
 }
 
 .donate-qr-wrap {
   width: 100%;
-  max-width: 200px;
+  max-width: 170px;
   aspect-ratio: 1;
   border-radius: var(--radius-md);
   overflow: hidden;
