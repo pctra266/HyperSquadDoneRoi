@@ -11,7 +11,7 @@
  */
 
 export const SUPPORTERS_LIST = [
-  // { name: "B3omQ", badge: "Donator (5.000đ)", icon: "🥖", isDonator: true },
+  { name: "Thien Bao", badge: "Donator (5.000đ)", icon: "🥖", isDonator: true },
   { name: "@Sovatpoor", badge: "Commenter", icon: "💬" },
   { name: "@vutuankiet0304", badge: "Commenter", icon: "💬" },
   { name: "Bá Đức Nguyễn", badge: "New Subscriber", icon: "🌟" },
