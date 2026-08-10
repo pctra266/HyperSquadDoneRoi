@@ -1,20 +1,19 @@
 import { defineConfig } from "vite";
 
 export default defineConfig({
-  // Serve từ thư mục gốc của project
-  root: ".",
-
-  // Assets public dir
+  root:      ".",
   publicDir: "assets",
 
   build: {
-    outDir:    "dist",
+    outDir:      "dist",
     emptyOutDir: true,
-    // Không minify tên module để dễ debug
     rollupOptions: {
       output: {
-        manualChunks: {
-          firebase: ["firebase/app", "firebase/database", "firebase/analytics"],
+        // Vite 8 / Rolldown: manualChunks phải là function
+        manualChunks(id) {
+          if (id.includes("node_modules/firebase") || id.includes("node_modules/@firebase")) {
+            return "firebase";
+          }
         },
       },
     },
@@ -22,6 +21,6 @@ export default defineConfig({
 
   server: {
     port: 3000,
-    open: true, // Tự mở browser khi chạy npm run dev
+    open: true,
   },
 });
