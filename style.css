@@ -138,13 +138,6 @@ img {
   color: var(--text-primary);
 }
 
-.splash-title span {
-  background: linear-gradient(135deg, var(--accent-red), var(--accent-neon));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
 .splash-sub {
   color: var(--text-secondary);
   font-size: 0.95rem;
@@ -254,6 +247,14 @@ img {
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
+}
+.logo-popcat {
+  background: linear-gradient(135deg, #fbbf24, #f59e0b);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  filter: drop-shadow(0 0 6px rgba(251, 191, 36, 0.4));
+  margin-left: 0.12em;
 }
 
 /* Stats row */
