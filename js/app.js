@@ -6,6 +6,7 @@
  */
 
 import { GameManager } from "./game-manager.js";
+import { renderSupporters } from "./supporters.js";
 
 // ── Intro splash ──────────────────────────────────────────────────────────────
 function hideSplash() {
@@ -18,6 +19,7 @@ function hideSplash() {
 
 // ── Boot ──────────────────────────────────────────────────────────────────────
 window.addEventListener("DOMContentLoaded", async () => {
+  renderSupporters();
   const manager = new GameManager();
 
   try {
