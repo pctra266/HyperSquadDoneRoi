@@ -4,22 +4,24 @@
    ═══════════════════════════════════════════════════════════════════════════ */
 
 /* ── 1. CSS Custom Properties (Design Tokens) ─────────────────────────────── */
+/* ── 1. CSS Custom Properties (Design Tokens) ─────────────────────────────── */
 :root {
-  /* Colors */
-  --bg-base:       #06060f;
-  --bg-surface:    #0e0e20;
+  /* Colors - Matched to Synthwave Logo (Crimson Red & Electric Magenta) */
+  --bg-base:       #07040c;
+  --bg-surface:    #12081d;
   --bg-card:       rgba(255, 255, 255, 0.04);
-  --bg-card-hover: rgba(255, 255, 255, 0.07);
+  --bg-card-hover: rgba(255, 255, 255, 0.08);
   --border-subtle: rgba(255, 255, 255, 0.08);
-  --border-glow:   rgba(255, 255, 255, 0.15);
+  --border-glow:   rgba(255, 30, 66, 0.25);
 
-  --text-primary:   #f0f0ff;
-  --text-secondary: #8888aa;
-  --text-dim:       #555570;
+  --text-primary:   #f5f0ff;
+  --text-secondary: #a090b8;
+  --text-dim:       #685580;
 
-  --accent-primary: #7c3aed;
-  --accent-neon:    #c084fc;
-  --accent-cyan:    #22d3ee;
+  --accent-red:     #ff1e42;
+  --accent-primary: #ff2a4b;
+  --accent-neon:    #d900ff;
+  --accent-cyan:    #06b6d4;
   --accent-gold:    #fbbf24;
 
   /* Typography */
@@ -41,8 +43,8 @@
   --radius-xl:  32px;
 
   /* Shadows */
-  --shadow-card:  0 8px 32px rgba(0, 0, 0, 0.4);
-  --shadow-glow:  0 0 40px rgba(124, 58, 237, 0.3);
+  --shadow-card:  0 8px 32px rgba(0, 0, 0, 0.5);
+  --shadow-glow:  0 0 40px rgba(255, 30, 66, 0.35);
   --shadow-neon:  0 0 20px currentColor;
 
   /* Transitions */
@@ -70,11 +72,11 @@ body {
   color: var(--text-primary);
   min-height: 100dvh;
   overflow-x: hidden;
-  /* Animated gradient background */
+  /* Synthwave background glow matching logo.jpg */
   background-image:
-    radial-gradient(ellipse at 20% 20%, rgba(124, 58, 237, 0.12) 0%, transparent 60%),
-    radial-gradient(ellipse at 80% 80%, rgba(34, 211, 238, 0.08) 0%, transparent 60%),
-    radial-gradient(ellipse at 50% 50%, rgba(251, 191, 36, 0.04) 0%, transparent 70%);
+    radial-gradient(ellipse at 50% 0%, rgba(217, 0, 255, 0.16) 0%, transparent 65%),
+    radial-gradient(ellipse at 15% 85%, rgba(255, 30, 66, 0.12) 0%, transparent 60%),
+    radial-gradient(ellipse at 85% 90%, rgba(139, 92, 246, 0.1) 0%, transparent 70%);
   background-attachment: fixed;
 }
 
@@ -112,14 +114,19 @@ img {
   gap: var(--gap-md);
 }
 
-.splash-logo {
-  font-size: 5rem;
-  animation: splashPulse 1.2s ease-in-out infinite;
+.splash-logo-img {
+  width: 110px;
+  height: 110px;
+  border-radius: 24px;
+  border: 2px solid rgba(217, 0, 255, 0.6);
+  box-shadow: 0 0 35px rgba(217, 0, 255, 0.45), 0 0 20px rgba(255, 30, 66, 0.45);
+  object-fit: cover;
+  animation: splashPulse 2s ease-in-out infinite;
 }
 
 @keyframes splashPulse {
-  0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.15); }
+  0%, 100% { transform: scale(1); box-shadow: 0 0 35px rgba(217, 0, 255, 0.45), 0 0 20px rgba(255, 30, 66, 0.45); }
+  50% { transform: scale(1.08); box-shadow: 0 0 50px rgba(217, 0, 255, 0.65), 0 0 30px rgba(255, 30, 66, 0.65); }
 }
 
 .splash-title {
@@ -132,7 +139,7 @@ img {
 }
 
 .splash-title span {
-  background: linear-gradient(135deg, var(--accent-neon), var(--accent-cyan));
+  background: linear-gradient(135deg, var(--accent-red), var(--accent-neon));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -193,7 +200,7 @@ img {
   position: sticky;
   top: 0;
   z-index: 100;
-  background: rgba(6, 6, 15, 0.85);
+  background: rgba(7, 4, 12, 0.85);
   backdrop-filter: blur(20px) saturate(180%);
   -webkit-backdrop-filter: blur(20px) saturate(180%);
   border-bottom: 1px solid var(--border-subtle);
@@ -215,17 +222,22 @@ img {
   align-items: center;
   gap: var(--gap-sm);
   text-decoration: none;
+  cursor: pointer;
 }
 
-.logo-paw {
-  font-size: 2rem;
-  animation: pawWiggle 3s ease-in-out infinite;
+.header-logo-img {
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  border: 1.5px solid rgba(255, 30, 66, 0.5);
+  box-shadow: 0 0 14px rgba(255, 30, 66, 0.35);
+  object-fit: cover;
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast);
 }
 
-@keyframes pawWiggle {
-  0%, 100% { transform: rotate(0deg); }
-  25%       { transform: rotate(-10deg); }
-  75%       { transform: rotate(10deg); }
+.header-logo:hover .header-logo-img {
+  transform: scale(1.08) rotate(-3deg);
+  box-shadow: 0 0 20px rgba(217, 0, 255, 0.5);
 }
 
 .logo-text {
@@ -238,7 +250,7 @@ img {
 
 .logo-hyper { color: var(--text-primary); }
 .logo-squad {
-  background: linear-gradient(135deg, var(--accent-neon), var(--accent-cyan));
+  background: linear-gradient(135deg, var(--accent-red), var(--accent-neon));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -332,7 +344,7 @@ img {
   font-family: var(--font-display);
   font-size: clamp(1.5rem, 4vw, 2.5rem);
   font-weight: 800;
-  background: linear-gradient(135deg, #f0f0ff 0%, var(--accent-neon) 100%);
+  background: linear-gradient(135deg, #f5f0ff 0%, var(--accent-red) 50%, var(--accent-neon) 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
