@@ -4,11 +4,12 @@
  * FirebaseService – Handles ALL Firebase interactions.
  *
  * Design decisions:
- *  • Uses Firebase Realtime Database (REST + SDK) for low-latency counters.
+ *  • Uses Firebase Realtime Database for low-latency counters.
  *  • `batchUpdate(deltas)` uses `runTransaction` per node so concurrent users
  *    never overwrite each other (optimistic concurrency, server-side merge).
  *  • Exposes an `onScoreUpdate(callback)` subscription so any module can
  *    react to remote changes without tight coupling.
+ *  • Firebase config is imported from js/env.js (gitignored — no secrets in VCS)
  * ─────────────────────────────────────────────────────────────────────────────
  */
 
@@ -19,29 +20,42 @@
 // ─────────────────────────────────────────────────────────────────────────────
 import { FIREBASE_CONFIG } from "./env.js";
 
-import { initializeApp }           from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+// ── Firebase npm imports (thay thế CDN) ──────────────────────────────────────
+import { initializeApp }     from "firebase/app";
+import { getAnalytics }      from "firebase/analytics";
 import {
   getDatabase,
   ref,
   onValue,
   runTransaction,
-  update,
   get,
-}                                  from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+}                            from "firebase/database";
 
 // ─────────────────────────────────────────────────────────────────────────────
 class FirebaseService {
   /** @type {ReturnType<typeof getDatabase>} */
   #db = null;
+  /** @type {ReturnType<typeof getAnalytics> | null} */
+  #analytics = null;
   /** @type {Function[]} — score-update subscribers */
   #subscribers = [];
-  /** @type {import('firebase/database').Unsubscribe | null} */
+  /** @type {Function | null} — Firebase onValue unsubscribe handle */
   #unsubscribeListener = null;
 
   // ── Initialise ────────────────────────────────────────────────────────────
   init() {
-    const app = initializeApp(FIREBASE_CONFIG);
-    this.#db  = getDatabase(app);
+    const app      = initializeApp(FIREBASE_CONFIG);
+    this.#db       = getDatabase(app);
+
+    // Analytics là optional — chỉ chạy trên browser (không chạy trong SSR)
+    if (typeof window !== "undefined") {
+      try {
+        this.#analytics = getAnalytics(app);
+      } catch {
+        // Analytics có thể fail do adblocker — không ảnh hưởng game
+      }
+    }
+
     console.info("[FirebaseService] Connected to Realtime Database.");
     return this;
   }
@@ -56,7 +70,7 @@ class FirebaseService {
     if (typeof callback !== "function") throw new TypeError("callback must be a function");
     this.#subscribers.push(callback);
 
-    // Attach (or reuse) the single onValue listener
+    // Attach (hoặc tái dùng) single onValue listener
     if (!this.#unsubscribeListener) {
       const scoresRef = ref(this.#db, "scores");
       this.#unsubscribeListener = onValue(scoresRef, (snapshot) => {
@@ -102,7 +116,6 @@ class FirebaseService {
       await Promise.all(promises);
     } catch (err) {
       console.error("[FirebaseService] batchUpdate failed:", err);
-      // Re-throw so GameManager can handle retry logic if desired
       throw err;
     }
   }

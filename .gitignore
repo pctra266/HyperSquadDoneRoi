@@ -5,22 +5,24 @@
 # ── 🔐 SECRETS — NEVER commit these ─────────────────────────────────
 js/env.js
 
-# ── Node / npm ───────────────────────────────────────────────────────
+# ── Node / npm ───────────────────────────────────────────────────────────────
 node_modules/
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 .pnpm-debug.log*
-package-lock.json
-yarn.lock
-pnpm-lock.yaml
+# Không ignore package-lock.json — nên commit để lock version
+# package-lock.json
 
-# ── Build output ─────────────────────────────────────────────────────
+# ── Build output ─────────────────────────────────────────────────────────────
 dist/
 build/
 .cache/
 .parcel-cache/
+
+# ── Vite cache ────────────────────────────────────────────────────────────────
 .vite/
+vite.config.js.timestamp-*
 
 # ── OS generated ─────────────────────────────────────────────────────
 .DS_Store
