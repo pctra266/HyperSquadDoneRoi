@@ -107,6 +107,35 @@
     </footer>
   </div>
 
+  <!-- ── 🍞 Donate Widget (góc dưới phải) ────────────────────────────────── -->
+  <div id="donate-widget" class="donate-widget" role="complementary" aria-label="Ủng hộ tác giả">
+    <!-- Nút toggle (luôn hiển thị) -->
+    <button class="donate-toggle" id="donate-toggle-btn" aria-expanded="false" aria-controls="donate-panel">
+      <span class="donate-icon">🍞</span>
+      <span class="donate-label">Ủng hộ</span>
+    </button>
+
+    <!-- Panel QR (hiện khi click) -->
+    <div class="donate-panel" id="donate-panel" aria-hidden="true">
+      <div class="donate-panel-inner">
+        <p class="donate-text">
+          <span class="donate-emoji-big">🥖</span>
+          Ủng hộ chủ website<br/>
+          <strong>cái bánh mì nha!</strong>
+        </p>
+        <div class="donate-qr-wrap">
+          <img
+            src="/cats/qr.jpg"
+            alt="QR Code ủng hộ qua VietQR MB Bank"
+            class="donate-qr"
+            loading="lazy"
+          />
+        </div>
+        <p class="donate-sub">Scan QR · VietQR · MB Bank</p>
+      </div>
+    </div>
+  </div>
+
   <!-- ES Module entry point -->
   <script type="module" src="js/app.js"></script>
 </body>
