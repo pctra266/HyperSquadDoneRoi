@@ -11,6 +11,7 @@
  */
 
 export const SUPPORTERS_LIST = [
+  // { name: "B3omQ", badge: "Donator (5.000đ)", icon: "🥖", isDonator: true },
   { name: "@Sovatpoor", badge: "Commenter", icon: "💬" },
   { name: "@vutuankiet0304", badge: "Commenter", icon: "💬" },
   { name: "Bá Đức Nguyễn", badge: "New Subscriber", icon: "🌟" },
@@ -67,7 +68,8 @@ export function renderSupporters() {
     const colorScheme = BADGE_COLORS[index % BADGE_COLORS.length];
 
     const chip = document.createElement("div");
-    chip.className = "supporter-chip";
+    const isDonator = isObj && (item.isDonator || badgeText.includes("Donator"));
+    chip.className = isDonator ? "supporter-chip is-donator" : "supporter-chip";
     chip.style.setProperty("--chip-border", colorScheme.border);
     chip.style.setProperty("--chip-bg", colorScheme.bg);
     chip.style.setProperty("--chip-color", colorScheme.text);
