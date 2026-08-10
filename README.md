@@ -69,30 +69,18 @@ In Firebase Console → **Realtime Database → Rules**, paste:
   "rules": {
     "scores": {
       "$catId": {
-        // Anyone can read scores (public leaderboard)
         ".read": true,
-
         "total": {
-          // Anyone can write the total (public game)
-          // Change to "auth != null" if you add login
           ".write": true,
-          // Value must be a non-negative number
-          ".validate": "newData.isNumber() && newData.val() >= 0"
+          // Must be a number, can only increase, and max delta per request is +50 (Anti-Hack Rule)
+          ".validate": "newData.isNumber() && newData.val() >= (data.exists() ? data.val() : 0) && (!data.exists() || (newData.val() - data.val() <= 50))"
         },
-
-        // Block any extra fields under a cat node
         "$other": {
           ".write": false,
           ".read":  false
         }
-      },
-
-      // Block writing new cat IDs not in your list
-      // (Optional — only if you want to lock the cat list)
-      ".validate": "newData.hasChildren(['total'])"
+      }
     },
-
-    // Block all other top-level reads/writes
     "$other": {
       ".read":  false,
       ".write": false

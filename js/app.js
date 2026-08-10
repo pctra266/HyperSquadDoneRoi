@@ -34,7 +34,4 @@ window.addEventListener("DOMContentLoaded", async () => {
   } finally {
     hideSplash();
   }
-
-  // Expose manager globally for debugging in browser console
-  window.__game = manager;
 });
