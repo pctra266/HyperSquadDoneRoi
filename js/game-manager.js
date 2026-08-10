@@ -245,7 +245,8 @@ export class GameManager {
     this.#setConnected(true);
 
     this.#cats.forEach((cat, id) => {
-      cat.setGlobalScore(scores[id] ?? 0);
+      const safeScore = Math.max(0, scores[id] ?? 0);
+      cat.setGlobalScore(safeScore);
     });
 
     this.#updateTotalScore();
@@ -263,7 +264,7 @@ export class GameManager {
   }
 
   #updateTotalScore() {
-    const total = Object.values(this.#globalScores).reduce((a, b) => a + b, 0);
+    const total = Object.values(this.#globalScores).reduce((a, b) => a + Math.max(0, b ?? 0), 0);
     if (this.#totalScoreEl) {
       const formatted = total.toLocaleString();
       this.#totalScoreEl.textContent = formatted;
@@ -277,7 +278,7 @@ export class GameManager {
     if (!this.#leaderboardEl) return;
 
     const sorted = CAT_CONFIG
-      .map((c) => ({ ...c, score: scores[c.id] ?? 0 }))
+      .map((c) => ({ ...c, score: Math.max(0, scores[c.id] ?? 0) }))
       .sort((a, b) => b.score - a.score);
 
     this.#leaderboardEl.innerHTML = "";

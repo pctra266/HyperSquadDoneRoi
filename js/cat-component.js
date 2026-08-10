@@ -279,7 +279,8 @@ export class CatComponent {
    * Renders instantly on page load/refresh, and animates smoothly on live updates.
    * @param {number} newScore
    */
-  setGlobalScore(newScore) {
+  setGlobalScore(rawScore) {
+    const newScore = Math.max(0, Math.floor(rawScore || 0));
     if (this.#isInitialized && newScore === this.#displayedScore) return;
 
     // Cancel any ongoing animation
