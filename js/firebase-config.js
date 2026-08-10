@@ -23,6 +23,7 @@ import { FIREBASE_CONFIG } from "./env.js";
 // ── Firebase npm imports (thay thế CDN) ──────────────────────────────────────
 import { initializeApp }     from "firebase/app";
 import { getAnalytics }      from "firebase/analytics";
+import { initializeAppCheck, ReCaptchaV3Provider } from "firebase/app-check";
 import {
   getDatabase,
   ref,
@@ -47,6 +48,19 @@ class FirebaseService {
   init() {
     const app      = initializeApp(FIREBASE_CONFIG);
     this.#db       = getDatabase(app);
+
+    // App Check (reCAPTCHA v3) — Chặn 100% script/bot tự động bên ngoài
+    if (typeof window !== "undefined") {
+      try {
+        initializeAppCheck(app, {
+          provider: new ReCaptchaV3Provider("6LcRxn4tAAAAAK-dz8RK3jprx_-bmjke-yiyuJYm"),
+          isTokenAutoRefreshEnabled: true,
+        });
+        console.info("[FirebaseService] App Check (reCAPTCHA v3) enabled.");
+      } catch (err) {
+        console.warn("[FirebaseService] App Check init warning:", err);
+      }
+    }
 
     // Analytics là optional — chỉ chạy trên browser (không chạy trong SSR)
     if (typeof window !== "undefined") {
